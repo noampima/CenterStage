@@ -24,6 +24,9 @@ public abstract class Robot extends LinearOpMode {
 
     // Allows you to connect opModes to the base class
     @Override
-    public abstract void runOpMode() throws InterruptedException;
+    public void runOpMode()
+    {
+        this._robotController.update();
+    }
 
 }
