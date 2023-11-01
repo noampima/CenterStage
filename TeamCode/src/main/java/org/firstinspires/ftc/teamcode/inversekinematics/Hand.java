@@ -2,10 +2,7 @@ package org.firstinspires.ftc.teamcode.inversekinematics;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -29,6 +26,10 @@ public class Hand extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         ElapsedTime opmodeRunTime = new ElapsedTime();
+
+        servoHandRight = hardwareMap.get(Servo.class, "sHR");
+        serverHandLeft = hardwareMap.get(Servo.class, "sHL");
+        servoClaw = hardwareMap.get(Servo.class, "sC");
 
         waitForStart();
 
@@ -79,7 +80,11 @@ public class Hand extends LinearOpMode {
 
                 servoClaw.setPosition(Math.abs(elbowPos));    // claw
 
+                telemetry.addLine("left hand: " + serverHandLeft.getPosition() + " right hand: " + servoHandRight.getPosition());
+                telemetry.addLine("claw: " + servoClaw.getPosition());
+                telemetry.addLine("x: " + x + " z: " + z);
 
+                telemetry.update();
             }
         }
     }
