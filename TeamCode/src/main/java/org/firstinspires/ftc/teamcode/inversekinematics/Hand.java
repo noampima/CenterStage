@@ -11,11 +11,10 @@ public class Hand extends LinearOpMode {
     Interpolation interpX, interpZ;
     Servo servoHandRight, serverHandLeft;
     Servo servoClaw;
-    public static int xDefault = 50, zDefault = 100;
+    public static int xTarget = 50, zTarget = 100;
     public static double upperLength = 50; // hand
     public static double lowerLength = 100; // claw
 
-    int xTarget = xDefault, zTarget = zDefault;
     double currentMillis, previousMillis;
 
     float x,z;
