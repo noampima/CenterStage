@@ -1,9 +1,4 @@
-package org.firstinspires.ftc.teamcode.inversekinematics;
-
-import static org.firstinspires.ftc.teamcode.inversekinematics.RampLib.loop_mode.ONCEFORWARD;
-import static org.firstinspires.ftc.teamcode.inversekinematics.RampLib.ramp_mode.LINEAR;
-
-import TrcCommonLib.trclib.TrcPurePursuitDrive;
+package org.firstinspires.ftc.teamcode.testing.inversekinematics;
 
 public class Interpolation
 {
@@ -19,7 +14,7 @@ public class Interpolation
         savedValue = input;          // bookmark the old value
 
         if (interpolationFlag == 0) {                                        // only do it once until the flag is reset
-            myRamp.go(input, duration, LINEAR, ONCEFORWARD);              // start interpolation (value to go to, duration)
+            myRamp.go(input, duration, RampLib.ramp_mode.LINEAR, RampLib.loop_mode.ONCEFORWARD);              // start interpolation (value to go to, duration)
             interpolationFlag = 1;
         }
 

@@ -1,14 +1,13 @@
-package org.firstinspires.ftc.teamcode.inversekinematics;
+package org.firstinspires.ftc.teamcode.testing.inversekinematics;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-
-import TrcCommonLib.trclib.TrcPurePursuitDrive;
 
 @Config
+@TeleOp(name = "Hand IK with RAMP")
 public class Hand extends LinearOpMode {
     Interpolation interpX, interpZ;
     Servo servoHandRight, serverHandLeft;
