@@ -19,7 +19,7 @@ public class Hand extends LinearOpMode {
 
     double currentMillis, previousMillis;
 
-    float x,z;
+    float x = xTarget, z = zTarget;
 
     double shoulderAngle2a, shoulderAngle2aDegrees, shoulderAngle2, shoulderAngle2Degrees, shoulderPos2, z2, shoulderAngle1a;
     double shoulderAngle1, elbowAngle, shoulderAngleDegrees, elbowAngleDegrees, elbowPos, shoulderPos;
@@ -41,18 +41,18 @@ public class Hand extends LinearOpMode {
                 previousMillis = currentMillis;
 
 
-                // start interpolation
-                z = interpZ.go(zTarget, 1000);
-                x = interpX.go(xTarget, 1000);
+                // start interpolation - should be like motion profiling
+                //z = interpZ.go(zTarget, 1000);
+                //x = interpX.go(xTarget, 1000);
 
                 // *** Inverse Kinematics ***
                 // calculate modification to shoulder angle and arm length
 
                 shoulderAngle2a = Math.atan(z / x);
-                shoulderAngle2aDegrees = shoulderAngle2a * (180 / Math.PI);    // degrees
-                shoulderAngle2 = shoulderAngle2a - 0.7853908;  // take away the default 45' offset (in radians)
-                shoulderAngle2Degrees = shoulderAngle2 * (180 / Math.PI);    // degrees
-                shoulderPos2 = Range.scale(shoulderAngle2Degrees, -360, 360, -1, 1);
+                shoulderAngle2aDegrees = Math.toDegrees(shoulderAngle2a);    // degrees
+                shoulderAngle2 = shoulderAngle2a - Math.toRadians(45);  // take away the default 45' offset (in radians)
+                shoulderAngle2Degrees = Math.toDegrees(shoulderAngle2);    // degrees
+                //shoulderPos2 = Range.scale(shoulderAngle2Degrees, -360, 360, -1, 1);
 
                 z2 = x / Math.cos(shoulderAngle2a);     // calc new arm length to feed to the next bit of code below
 
@@ -64,19 +64,19 @@ public class Hand extends LinearOpMode {
                 elbowAngle = Math.PI - (shoulderAngle1 * 2);       // radians
 
                 // calc degrees from angles
-                shoulderAngleDegrees = shoulderAngle1 * (180 / Math.PI);    // degrees
-                elbowAngleDegrees = elbowAngle * (180 / Math.PI);              // degrees
+                shoulderAngleDegrees = Math.toDegrees(shoulderAngle1);    // degrees
+                elbowAngleDegrees = Math.toDegrees(elbowAngle);              // degrees
 
                 // calc milliseconds PWM to drive the servo.
-                shoulderPos = Range.scale(shoulderAngleDegrees, -360, 360, -270, 270);
-                elbowPos = Range.scale(elbowAngleDegrees, -360, 360, -270, 270);
+                //shoulderPos = Range.scale(shoulderAngleDegrees, -360, 360, -270, 270);
+                //elbowPos = Range.scale(elbowAngleDegrees, -360, 360, -270, 270);
 
                 // *** end of Inverse Kinematics ***
 
                 shoulderPos -= shoulderPos2;
-                shoulderPos = Math.abs(shoulderPos) / 270;
+                shoulderPos = Math.abs(shoulderPos) / 202.5;
 
-                elbowPos = Math.abs(elbowPos) / 270;
+                elbowPos = Math.abs(elbowPos) / 202.5;
 
                 // write to servos, remove 45' and 90' offsets from arm default position
                 servoHandRight.setPosition(shoulderPos);    // hand
