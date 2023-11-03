@@ -6,7 +6,6 @@ import org.firstinspires.ftc.teamcode.subsystems.AirplaneLauncher;
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainController;
 import org.firstinspires.ftc.teamcode.subsystems.Elevator;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 public abstract class Robot extends LinearOpMode {
 
