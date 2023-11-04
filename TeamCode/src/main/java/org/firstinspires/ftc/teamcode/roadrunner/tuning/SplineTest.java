@@ -5,13 +5,17 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 public final class SplineTest extends LinearOpMode {
+    private final RobotHardware robot = RobotHardware.getInstance();
+
     @Override
     public void runOpMode() throws InterruptedException {
+        robot.init(hardwareMap, telemetry);
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
-            MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+            MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0), robot);
 
             waitForStart();
 

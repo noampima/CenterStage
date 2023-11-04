@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.util.GamepadHelper;
+import org.firstinspires.ftc.teamcode.util.BetterGamepad;
 
 @Config
 public class Elevator {
@@ -22,7 +22,7 @@ public class Elevator {
     public static boolean DEBUG = true;
 
     Gamepad gamepad;
-    GamepadHelper cGamepad;
+    BetterGamepad cGamepad;
 
     public Elevator(HardwareMap hardwareMap, Gamepad gamepad)
     {
@@ -38,7 +38,7 @@ public class Elevator {
         }
 
         this.gamepad = gamepad;
-        this.cGamepad = new GamepadHelper(gamepad);
+        this.cGamepad = new BetterGamepad(gamepad);
     }
 
     public Elevator(HardwareMap hardwareMap)

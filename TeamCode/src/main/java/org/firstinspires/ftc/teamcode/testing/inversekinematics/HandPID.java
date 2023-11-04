@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+// TODO: CHECK IF MOTION PROFILE IS GOOD
 @Config
 @TeleOp(name = "Hand IK with PID")
 public class HandPID extends LinearOpMode {
