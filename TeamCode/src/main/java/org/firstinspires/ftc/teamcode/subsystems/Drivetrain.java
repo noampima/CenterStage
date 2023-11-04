@@ -11,15 +11,17 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.BetterGamepad;
 import org.firstinspires.ftc.teamcode.util.Globals;
+import org.firstinspires.ftc.teamcode.util.wrappers.BetterSubsystem;
 
-public class Drivetrain {
+public class Drivetrain extends BetterSubsystem {
 
     boolean redAlliance;
-    HardwareMap hardwareMap;
 
     private BetterGamepad _cGamepad1, _cGamepad2;
 
     RobotHardware _robot;
+
+    double frontLeftPower = 0, backLeftPower = 0, frontRightPower = 0, backRightPower = 0;
 
     //Constructor
     public Drivetrain(RobotHardware robot, Gamepad gamepad1, Gamepad gamepad2, boolean redAlliance)
@@ -35,8 +37,8 @@ public class Drivetrain {
         resetAngle();
     }
 
-    public void update()
-    {
+    @Override
+    public void periodic() {
         double heading = _robot.getAngle();
 
         double y = -_cGamepad1.left_stick_y; // Remember, Y stick value is reversed
@@ -60,15 +62,27 @@ public class Drivetrain {
         // This ensures all the powers maintain the same ratio,
         // but only if at least one is out of the range [-1, 1]
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), Globals.maxPower);
-        double frontLeftPower = (rotY + rotX + rx) / denominator;
-        double backLeftPower = (rotY - rotX + rx) / denominator;
-        double frontRightPower = (rotY - rotX - rx) / denominator;
-        double backRightPower = (rotY + rotX - rx) / denominator;
+        frontLeftPower = (rotY + rotX + rx) / denominator;
+        backLeftPower = (rotY - rotX + rx) / denominator;
+        frontRightPower = (rotY - rotX - rx) / denominator;
+        backRightPower = (rotY + rotX - rx) / denominator;
+    }
 
+    @Override
+    public void read() {
+
+    }
+
+    @Override
+    public void write() {
         _robot.dtFrontLeftMotor.setPower(frontLeftPower);
         _robot.dtBackLeftMotor.setPower(backLeftPower);
         _robot.dtFrontLeftMotor.setPower(frontRightPower);
         _robot.dtFrontRightMotor.setPower(backRightPower);
+    }
+
+    @Override
+    public void reset() {
     }
 
     void resetAngle()
@@ -83,4 +97,5 @@ public class Drivetrain {
             _robot.setImuOffset(Math.PI + Math.PI/2);
         }
     }
+
 }
