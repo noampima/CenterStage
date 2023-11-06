@@ -5,10 +5,16 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.commands.ElevatorCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.subsystems.Elevator;
 import org.firstinspires.ftc.teamcode.util.BetterGamepad;
 import org.firstinspires.ftc.teamcode.util.Globals;
 
@@ -18,8 +24,11 @@ public class OpMode extends CommandOpMode {
 
     private final RobotHardware robot = RobotHardware.getInstance();
     private Drivetrain drivetrain;
+    Elevator elevator;
 
-    BetterGamepad gamepadEx, gamepadEx2;
+    GamepadEx gamepadEx, gamepadEx2;
+
+    double elevatorTarget = Globals.START_ELEVATOR;
 
     @Override
     public void initialize() {
@@ -29,26 +38,26 @@ public class OpMode extends CommandOpMode {
         Globals.IS_AUTO = false;
         Globals.IS_USING_IMU = true;
 
-        gamepadEx = new BetterGamepad(gamepad1);
-        gamepadEx2 = new BetterGamepad(gamepad2);
+        gamepadEx = new GamepadEx(gamepad1);
+        gamepadEx2 = new GamepadEx(gamepad2);
+
+        drivetrain = new Drivetrain(robot, gamepad1, gamepad2, true);
+        elevator = new Elevator(hardwareMap, gamepad2);
 
         robot.init(hardwareMap, telemetry);
-        robot.addSubsystem(drivetrain); // TODO: drivetrain ,intake.....
-        drivetrain = new Drivetrain(robot, gamepad1, gamepad2, true);
+        robot.addSubsystem(drivetrain, elevator); // TODO: drivetrain ,intake.....
 
-//        gamepadEx.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-//                        .whenPressed(new ConditionalCommand(
-//                                new ClawCommand(intake, IntakeSubsystem.ClawState.INTERMEDIATE, ClawSide.LEFT),
-//                                new ClawCommand(intake, IntakeSubsystem.ClawState.OPEN, ClawSide.LEFT),
-//                                () -> (intake.leftClaw == (IntakeSubsystem.ClawState.CLOSED))
-//                        ));
-//
-//        gamepadEx.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-//                .whenPressed(new ConditionalCommand(
-//                        new ClawCommand(intake, IntakeSubsystem.ClawState.INTERMEDIATE, ClawSide.RIGHT),
-//                        new ClawCommand(intake, IntakeSubsystem.ClawState.OPEN, ClawSide.RIGHT),
-//                        () -> (intake.rightClaw == (IntakeSubsystem.ClawState.CLOSED))
-//                ));
+        gamepadEx.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                    .whenPressed(new SequentialCommandGroup(
+                            new ElevatorCommand(elevator, elevatorTarget)
+                        ));
+
+        gamepadEx.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenPressed(new SequentialCommandGroup(
+                        new ElevatorCommand(elevator, 0)
+
+                ));
+
 //
 //        gamepadEx.getGamepadButton(GamepadKeys.Button.B)
 //                .whenPressed(new ConditionalCommand(

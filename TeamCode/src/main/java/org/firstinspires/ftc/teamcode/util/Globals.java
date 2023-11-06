@@ -13,6 +13,8 @@ public class Globals {
     public static boolean IS_USING_IMU = true;
     public static boolean USING_DASHBOARD = false;
 
-    public static double maxPower = 0.8;
+    public static double MAX_POWER = 0.8;
+    public static double START_ELEVATOR = 2;
+
 
 }

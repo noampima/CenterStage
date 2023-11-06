@@ -6,11 +6,15 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.util.BetterGamepad;
+import org.firstinspires.ftc.teamcode.util.Globals;
+import org.firstinspires.ftc.teamcode.util.wrappers.BetterSubsystem;
 
 @Config
-public class Elevator {
+public class Elevator extends BetterSubsystem {
 
+    private final RobotHardware robot;
     public static double BASE_LEVEL = 5;
     public static double INCREMENT = 1;
     DcMotorEx motor;
@@ -26,6 +30,8 @@ public class Elevator {
 
     public Elevator(HardwareMap hardwareMap, Gamepad gamepad)
     {
+        this.robot = RobotHardware.getInstance();
+
         this.motor = hardwareMap.get(DcMotorEx.class, "mE");
         this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -43,6 +49,8 @@ public class Elevator {
 
     public Elevator(HardwareMap hardwareMap)
     {
+        this.robot = RobotHardware.getInstance();
+
         this.motor = hardwareMap.get(DcMotorEx.class, "mE");
         this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -54,10 +62,38 @@ public class Elevator {
         }
     }
 
-    public void update() {
-        cGamepad.update();
+    @Override
+    public void periodic() {
+        if(!Globals.IS_AUTO)
+        {
+            cGamepad.update();
 
-        if (usePID)
+            if (usePID)
+            {
+                target = currentTarget;
+
+                motor.setTargetPosition(inchesToEncoderTicks(target));
+                motor.setPower(power);
+                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+            else
+            {
+                motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                if(gamepad.left_stick_y != 0 && !gamepad.left_stick_button)
+                {
+                    motor.setPower(Range.clip(-gamepad.left_stick_y, -maxPower, maxPower));
+                }
+                else if(gamepad.left_stick_y != 0 && gamepad.left_stick_button)
+                {
+                    motor.setPower(Range.clip(-gamepad.left_stick_y, -maxPower/2, maxPower/2));
+                }
+                else
+                {
+                    motor.setPower(0);
+                }
+            }
+        }
+        else
         {
             target = currentTarget;
 
@@ -65,31 +101,21 @@ public class Elevator {
             motor.setPower(power);
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-        else
-        {
-            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            if(gamepad.left_stick_y != 0 && !gamepad.left_stick_button)
-            {
-                motor.setPower(Range.clip(-gamepad.left_stick_y, -maxPower, maxPower));
-            }
-            else if(gamepad.left_stick_y != 0 && gamepad.left_stick_button)
-            {
-                motor.setPower(Range.clip(-gamepad.left_stick_y, -maxPower/2, maxPower/2));
-            }
-            else
-            {
-                motor.setPower(0);
-            }
-        }
     }
 
-    public void updateAuto()
-    {
-        target = currentTarget;
+    @Override
+    public void read() {
 
-        motor.setTargetPosition(inchesToEncoderTicks(target));
-        motor.setPower(power);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    @Override
+    public void write() {
+
+    }
+
+    @Override
+    public void reset() {
+
     }
 
     public static double encoderTicksToInches(int ticks) {
@@ -114,6 +140,5 @@ public class Elevator {
     {
         currentTarget -= INCREMENT;
     }
-
 
 }

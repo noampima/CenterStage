@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.testing.inversekinematics;
+package org.firstinspires.ftc.teamcode.testing;
 
 import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
@@ -72,8 +72,9 @@ public class HandPID extends LinearOpMode {
         double outputClaw = kpClaw * errorClaw + kiClaw * integralClaw + kdClaw * derivativeClaw;
 
         // Convert PID outputs to servo positions (adjust for your servo's range)
-        double armServoPosition = Math.toDegrees(servoPosToRadians(servoArmRight.getPosition())) + outputArm;
-        double clawServoPosition = clawAngle + outputClaw;
+        double armServoPosition = Math.toDegrees(servoPosToRadians(servoArmRight.getPosition()) + outputArm)/270;
+        //double armServoPosition = outputArm;
+        double clawServoPosition = Math.toDegrees(clawAngle + outputClaw)/270;
 
         // Set servo positions
         moveArm(armServoPosition);
@@ -95,6 +96,6 @@ public class HandPID extends LinearOpMode {
 
     double servoPosToRadians(double pos)
     {
-        return Math.toRadians(pos * 270);
+        return Math.toRadians(pos);
     }
 }
