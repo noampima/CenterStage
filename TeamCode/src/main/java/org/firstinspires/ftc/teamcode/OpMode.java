@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -49,7 +50,9 @@ public class OpMode extends CommandOpMode {
 
         gamepadEx.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                     .whenPressed(new SequentialCommandGroup(
-                            new ElevatorCommand(elevator, elevatorTarget)
+                            new ElevatorCommand(elevator, elevatorTarget),
+                            new WaitCommand(250)//,
+                            //new ClawCommand
                         ));
 
         gamepadEx.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
@@ -181,6 +184,15 @@ public class OpMode extends CommandOpMode {
     @Override
     public void run() {
         robot.read();
+
+        if(gamepadEx.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) || gamepadEx2.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
+        {
+            elevatorTarget += Globals.ELEVATOR_INCREMENT;
+        }
+        else if(gamepadEx.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) || gamepadEx2.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
+        {
+            elevatorTarget -= Globals.ELEVATOR_INCREMENT;
+        }
 
 //        if (currentJoystickUp && !lastJoystickUp) {
 //            // height go upp

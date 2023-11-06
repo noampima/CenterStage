@@ -15,6 +15,7 @@ public class Globals {
 
     public static double MAX_POWER = 0.8;
     public static double START_ELEVATOR = 2;
+    public static double ELEVATOR_INCREMENT = .2;
 
 
 }

@@ -3,21 +3,40 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Intake {
+import org.firstinspires.ftc.teamcode.util.wrappers.BetterSubsystem;
+
+public class Intake extends BetterSubsystem
+{
 
     private DcMotor _intakeMotor;
 
     //Constructor
     public Intake(HardwareMap hardwareMap)
     {
-        this._intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-        // reset encoder
+        this._intakeMotor = hardwareMap.get(DcMotor.class, "mI");
+
         this._intakeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        // if power zero so brake
         this._intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        // use  PID
         this._intakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    @Override
+    public void periodic() {
+
+    }
+
+    @Override
+    public void read() {
+
+    }
+
+    @Override
+    public void write() {
+
+    }
+
+    @Override
+    public void reset() {
+
     }
 }
