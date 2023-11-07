@@ -6,10 +6,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.util.ClawSide;
+import org.firstinspires.ftc.teamcode.util.wrappers.BetterSubsystem;
 import org.jetbrains.annotations.NotNull;
 
 @Config
-public class Claw
+public class Claw extends BetterSubsystem
 {
     private final RobotHardware robot;
 
@@ -37,9 +38,29 @@ public class Claw
         updateState(ClawState.CLOSED, ClawSide.BOTH);
     }
 
+    @Override
+    public void periodic() {
+
+    }
+
+    @Override
+    public void read() {
+
+    }
+
+    @Override
+    public void write() {
+
+    }
+
+    @Override
+    public void reset() {
+
+    }
+
     public void updateState(@NotNull ClawState state, @NotNull ClawSide side) {
         double position = getClawStatePosition(state, side);
-//        this.clawState = state;
+
         switch(side) {
             case LEFT:
                 robot.clawLeftServo.setPosition(position);

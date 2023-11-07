@@ -2,12 +2,15 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 
+import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.Elevator;
+import org.firstinspires.ftc.teamcode.util.ClawSide;
 
 public class ClawCommand extends InstantCommand {
-    public ClawCommand(Elevator elevator, double target) {
+
+    public ClawCommand(Claw claw, Claw.ClawState state, ClawSide side) {
         super(
-                () -> elevator.setTarget(target)
+                () -> claw.updateState(state, side)
         );
     }
 }

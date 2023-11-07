@@ -141,4 +141,7 @@ public class Elevator extends BetterSubsystem {
         currentTarget -= INCREMENT;
     }
 
+    public void setUsePID(boolean usePID) {
+        this.usePID = usePID;
+    }
 }
