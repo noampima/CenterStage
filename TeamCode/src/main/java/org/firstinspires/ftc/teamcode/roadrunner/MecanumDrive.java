@@ -35,10 +35,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.RobotHardware;
-import org.firstinspires.ftc.teamcode.util.Globals;
+import org.firstinspires.ftc.teamcode.util.values.Globals;
 import org.firstinspires.ftc.teamcode.util.Localizer;
 import org.firstinspires.ftc.teamcode.util.PoseMessage;
 

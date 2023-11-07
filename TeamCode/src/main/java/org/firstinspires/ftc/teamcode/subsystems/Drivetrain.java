@@ -1,16 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
-import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.BetterGamepad;
-import org.firstinspires.ftc.teamcode.util.Globals;
+import org.firstinspires.ftc.teamcode.util.values.Globals;
 import org.firstinspires.ftc.teamcode.util.wrappers.BetterSubsystem;
 
 public class Drivetrain extends BetterSubsystem {

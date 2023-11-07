@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.util.BetterGamepad;
-import org.firstinspires.ftc.teamcode.util.Globals;
+import org.firstinspires.ftc.teamcode.util.values.Globals;
 import org.firstinspires.ftc.teamcode.util.wrappers.BetterSubsystem;
 
 @Config

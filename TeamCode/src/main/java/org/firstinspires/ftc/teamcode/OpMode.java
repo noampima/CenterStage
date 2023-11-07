@@ -5,8 +5,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.ConditionalCommand;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -16,12 +14,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorIncrementCommand;
+import org.firstinspires.ftc.teamcode.commands.HandCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.subsystems.Elevator;
-import org.firstinspires.ftc.teamcode.util.BetterGamepad;
-import org.firstinspires.ftc.teamcode.util.ClawSide;
-import org.firstinspires.ftc.teamcode.util.Globals;
+import org.firstinspires.ftc.teamcode.subsystems.Hand;
+import org.firstinspires.ftc.teamcode.util.values.ClawSide;
+import org.firstinspires.ftc.teamcode.util.values.Globals;
+import org.firstinspires.ftc.teamcode.util.values.HandPoints;
 
 @Config
 @TeleOp(name = "OpMode Red")
@@ -31,6 +31,7 @@ public class OpMode extends CommandOpMode {
     Drivetrain drivetrain;
     Elevator elevator;
     Claw claw;
+    Hand hand;
 
     GamepadEx gamepadEx, gamepadEx2;
 
@@ -50,15 +51,19 @@ public class OpMode extends CommandOpMode {
         drivetrain = new Drivetrain(robot, gamepad1, gamepad2, true);
         elevator = new Elevator(hardwareMap, gamepad2);
         claw = new Claw(hardwareMap);
+        hand = new Hand(hardwareMap);
 
         robot.init(hardwareMap, telemetry);
-        robot.addSubsystem(drivetrain, elevator, claw);
+        robot.addSubsystem(drivetrain, elevator, claw, hand);
 
         gamepadEx.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                     .whenPressed(new SequentialCommandGroup(
                             new ClawCommand(claw, Claw.ClawState.CLOSED, ClawSide.BOTH),
+                            new WaitCommand(10),
+                            new HandCommand(hand, HandPoints.mid),
                             new ElevatorCommand(elevator, elevatorTarget),
-                            new WaitCommand(250)
+                            new WaitCommand(100),
+                            new HandCommand(hand, HandPoints.outtake)
                         ));
 
         gamepadEx.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)

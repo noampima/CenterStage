@@ -55,7 +55,7 @@ public class HandPID extends LinearOpMode {
         // Calculate the angle for the arm
         double thetaArm = Math.atan2(targetZ, targetX);
 
-        // Calculate the angle for the claw servo using 2D trigonometry
+        // Calculate the angle fo r the claw servo using 2D trigonometry
         double d = Math.sqrt(targetX * targetX + targetZ * targetZ);
         double thetaClaw = Math.atan2(targetClawAngle, d - handLength);
 

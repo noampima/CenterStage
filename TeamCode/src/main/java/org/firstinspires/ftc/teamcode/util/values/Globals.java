@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode.util;
+package org.firstinspires.ftc.teamcode.util.values;
 
 import com.acmerobotics.dashboard.config.Config;
+
+import org.firstinspires.ftc.teamcode.util.Side;
 
 @Config
 public class Globals {

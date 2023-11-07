@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.RobotHardware;
-import org.firstinspires.ftc.teamcode.util.ClawSide;
+import org.firstinspires.ftc.teamcode.util.values.ClawSide;
 import org.firstinspires.ftc.teamcode.util.wrappers.BetterSubsystem;
 import org.jetbrains.annotations.NotNull;
 

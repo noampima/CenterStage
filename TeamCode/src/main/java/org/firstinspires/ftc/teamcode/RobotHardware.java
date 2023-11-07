@@ -14,14 +14,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.util.Globals;
+import org.firstinspires.ftc.teamcode.util.values.Globals;
 import org.firstinspires.ftc.teamcode.util.wrappers.BetterEncoder;
 import org.firstinspires.ftc.teamcode.util.wrappers.BetterServo;
 import org.firstinspires.ftc.teamcode.util.wrappers.BetterSubsystem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.annotation.Nonnegative;
 
