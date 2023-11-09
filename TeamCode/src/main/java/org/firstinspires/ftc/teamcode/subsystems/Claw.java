@@ -22,6 +22,7 @@ public class Claw extends BetterSubsystem
 {
     public static boolean auto = true;
     public static double delay = 135;
+    private boolean useSensor; // Use this variable to specify whether to use the right sensor
 
     private final RobotHardware robot;
 
@@ -35,7 +36,8 @@ public class Claw extends BetterSubsystem
     public ClawState leftClaw = ClawState.CLOSED;
     public ClawState rightClaw = ClawState.CLOSED;
 
-    public static double open = 0.1, intermediate = 0.05, close = 0;
+    public static double openLeft = 0.1, closeLeft = 0;
+    public static double openRight = 0.1, closeRight = 0;
 
     public Claw()
     {
@@ -93,14 +95,14 @@ public class Claw extends BetterSubsystem
 
     public void openClaw()
     {
-        robot.clawLeftServo.setPosition(open);
-        robot.clawRightServo.setPosition(open);
+        robot.clawLeftServo.setPosition(openLeft);
+        robot.clawRightServo.setPosition(openRight);
     }
 
     public void closeClaw()
     {
-        robot.clawLeftServo.setPosition(close);
-        robot.clawRightServo.setPosition(close);
+        robot.clawLeftServo.setPosition(closeLeft);
+        robot.clawRightServo.setPosition(closeRight);
     }
 
     private double getClawStatePosition(ClawState state, ClawSide side)
@@ -108,28 +110,23 @@ public class Claw extends BetterSubsystem
         switch (side)
         {
             case LEFT:
-            case RIGHT:
                 switch (state) {
                     case CLOSED:
-                        return close;
-                    case INTERMEDIATE:
-                        return intermediate;
+                        return closeLeft;
                     case OPEN:
-                        return open;
+                        return openLeft;
                     default:
                         return 0.0;
                 }
-//            case RIGHT:
-//                switch (state) {
-//                    case CLOSED:
-//                        return close;
-//                    case INTERMEDIATE:
-//                        return intermediate;
-//                    case OPEN:
-//                        return open;
-//                    default:
-//                        return 0.0;
-//                }
+            case RIGHT:
+                switch (state) {
+                    case CLOSED:
+                        return closeRight;
+                    case OPEN:
+                        return openRight;
+                    default:
+                        return 0.0;
+                }
             default:
                 return 0.0;
         }
@@ -137,13 +134,13 @@ public class Claw extends BetterSubsystem
 
     void checkAndClose(DigitalChannel sensor, ClawSide side)
     {
-        if(sensor.getState())
+        if(sensor.getState() && useSensor)
         {
             new SequentialCommandGroup(
                     new WaitCommand((long)delay),
                     new ClawCommand(this, Claw.ClawState.OPEN, side)).schedule();
         }
-        else
+        else if(useSensor)
         {
             new SequentialCommandGroup(
                     new WaitCommand((long) delay),
@@ -151,5 +148,11 @@ public class Claw extends BetterSubsystem
         }
     }
 
+    public boolean isUseSensor() {
+        return useSensor;
+    }
 
+    public void setUseSensor(boolean useSensor) {
+        this.useSensor = useSensor;
+    }
 }

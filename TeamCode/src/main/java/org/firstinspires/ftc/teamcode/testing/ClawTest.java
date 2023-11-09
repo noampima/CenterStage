@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.HandCommand;
+import org.firstinspires.ftc.teamcode.commands.SensorCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.subsystems.Elevator;
@@ -31,8 +32,7 @@ import org.firstinspires.ftc.teamcode.util.values.HandPoints;
 public class ClawTest extends CommandOpMode {
 
     private final RobotHardware robot = RobotHardware.getInstance();
-
-    Hand hand;
+    public static double delayTillSensor = 1000;
     Claw claw;
     GamepadEx gamepadEx;
 
@@ -49,12 +49,18 @@ public class ClawTest extends CommandOpMode {
 
         gamepadEx.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(new SequentialCommandGroup(
-                        new ClawCommand(claw, Claw.ClawState.CLOSED, ClawSide.BOTH)
+                        new SensorCommand(claw, false),
+                        new ClawCommand(claw, Claw.ClawState.CLOSED, ClawSide.BOTH),
+                        new WaitCommand((long)delayTillSensor),
+                        new SensorCommand(claw, true)
                 ));
 
         gamepadEx.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new SequentialCommandGroup(
-                        new ClawCommand(claw, Claw.ClawState.OPEN, ClawSide.BOTH)
+                        new SensorCommand(claw, false),
+                        new ClawCommand(claw, Claw.ClawState.OPEN, ClawSide.BOTH),
+                        new WaitCommand((long)delayTillSensor),
+                        new SensorCommand(claw, true)
                 ));
     }
 
