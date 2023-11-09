@@ -8,6 +8,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -41,6 +42,9 @@ public class RobotHardware {
     public BetterServo clawLeftServo;
     public BetterServo clawRightServo;
     public BetterServo clawPivotServo;
+    public DigitalChannel breambeamRight;  // Touch sensor Object
+    public DigitalChannel breambeamLeft;  // Touch sensor Object
+
 
     // hand
     public BetterServo handRightServo;
@@ -94,50 +98,52 @@ public class RobotHardware {
 
         this.subsystems = new ArrayList<>();
 
-        imu = hardwareMap.get(IMU.class, "imu");
+        this.imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        imu.initialize(parameters);
+        this.imu.initialize(parameters);
 
         // DRIVETRAIN
-        this.dtBackLeftMotor = hardwareMap.get(DcMotorEx.class, "mBL");
-        dtBackLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        dtBackLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        this.dtBackLeftMotor = hardwareMap.get(DcMotorEx.class, "mBL");
+//        this.dtBackLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        this.dtBackLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//
+//        this.dtFrontLeftMotor = hardwareMap.get(DcMotorEx.class, "mFL");
+//        this.dtFrontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        this.dtFrontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//
+//        this.dtBackRightMotor = hardwareMap.get(DcMotorEx.class, "mBR");
+//        this.dtBackRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//        this.dtFrontRightMotor = hardwareMap.get(DcMotorEx.class, "mFR");
+//        this.dtFrontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//        // ELEVATOR
+//        this.elevatorMotor = hardwareMap.get(DcMotorEx.class, "mE");
+//
+//        // INTAKE
+//        this.intakeMotor = hardwareMap.get(DcMotorEx.class, "mI");
 
-        this.dtFrontLeftMotor = hardwareMap.get(DcMotorEx.class, "mFL");
-        dtFrontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        dtFrontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        this.dtBackRightMotor = hardwareMap.get(DcMotorEx.class, "mBR");
-        dtBackRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        this.dtFrontRightMotor = hardwareMap.get(DcMotorEx.class, "mFR");
-        dtFrontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        // ELEVATOR
-        elevatorMotor = hardwareMap.get(DcMotorEx.class, "mE");
-
-        // INTAKE
-        intakeMotor = hardwareMap.get(DcMotorEx.class, "mI");
-
-
-        // TODO: check offsets if needed and reverse
+        breambeamRight = hardwareMap.get(DigitalChannel.class, "bbR");
+        breambeamLeft = hardwareMap.get(DigitalChannel.class, "bbL");
 
 
         // CLAW
-        clawLeftServo = new BetterServo(hardwareMap.get(Servo.class, "sCL"));
-        clawRightServo = new BetterServo(hardwareMap.get(Servo.class, "sCR"));
-        clawPivotServo = new BetterServo(hardwareMap.get(Servo.class, "sC"));
+        this.clawLeftServo = new BetterServo(hardwareMap.get(Servo.class, "sCL"));
+        this.clawLeftServo.setDirection(Servo.Direction.REVERSE);
+        this.clawRightServo = new BetterServo(hardwareMap.get(Servo.class, "sCR"));
+        this.clawPivotServo = new BetterServo(hardwareMap.get(Servo.class, "sC"));
 
         // HAND
-        handLeftServo = new BetterServo(hardwareMap.get(Servo.class, "sHL"));
-        handRightServo = new BetterServo(hardwareMap.get(Servo.class, "sHR"));
+        this.handLeftServo = new BetterServo(hardwareMap.get(Servo.class, "sHL"));
+        this.handRightServo = new BetterServo(hardwareMap.get(Servo.class, "sHR"));
 
 
-        this.podLeft = new BetterEncoder(new MotorEx(hardwareMap, "").encoder); // TODO: where the fuck did i connect them
-        this.podFront = new BetterEncoder(new MotorEx(hardwareMap, "").encoder);
-        this.podRight = new BetterEncoder(new MotorEx(hardwareMap, "").encoder);
+//        this.podLeft = new BetterEncoder(new MotorEx(hardwareMap, "").encoder); // TODO: where the fuck did i connect them
+//        this.podFront = new BetterEncoder(new MotorEx(hardwareMap, "").encoder);
+//        this.podRight = new BetterEncoder(new MotorEx(hardwareMap, "").encoder);
     }
 
     public void read() {

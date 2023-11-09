@@ -24,13 +24,9 @@ public class Hand extends BetterSubsystem
     double previousErrorArm = 0.0, integralArm = 0.0, previousErrorClaw = 0.0, integralClaw = 0.0;
 
     //Constructor
-    public Hand(HardwareMap hardwareMap)
+    public Hand()
     {
         this.robot = RobotHardware.getInstance();
-
-        servoArmRight = hardwareMap.get(Servo.class, "sHR");
-        servoArmLeft = hardwareMap.get(Servo.class, "sHL");
-        servoClaw = hardwareMap.get(Servo.class, "sC");
     }
 
     @Override

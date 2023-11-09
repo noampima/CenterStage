@@ -48,12 +48,13 @@ public class OpMode extends CommandOpMode {
         gamepadEx = new GamepadEx(gamepad1);
         gamepadEx2 = new GamepadEx(gamepad2);
 
-        drivetrain = new Drivetrain(robot, gamepad1, gamepad2, true);
-        elevator = new Elevator(hardwareMap, gamepad2);
-        claw = new Claw(hardwareMap);
-        hand = new Hand(hardwareMap);
-
         robot.init(hardwareMap, telemetry);
+
+        drivetrain = new Drivetrain(gamepad1, gamepad2, true);
+        elevator = new Elevator(gamepad2);
+        claw = new Claw();
+        hand = new Hand();
+
         robot.addSubsystem(drivetrain, elevator, claw, hand);
 
         gamepadEx.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)

@@ -17,7 +17,6 @@ public class Elevator extends BetterSubsystem {
     private final RobotHardware robot;
     public static double BASE_LEVEL = 5;
     public static double INCREMENT = 1;
-    DcMotorEx motor;
     double target, currentTarget = BASE_LEVEL;
     public static double TICKS_PER_REV = 145.1, SPOOL_RADIUS = 0.75; // in //TODO: CHANGE
     double power = 1;
@@ -28,38 +27,17 @@ public class Elevator extends BetterSubsystem {
     Gamepad gamepad;
     BetterGamepad cGamepad;
 
-    public Elevator(HardwareMap hardwareMap, Gamepad gamepad)
+    public Elevator(Gamepad gamepad)
     {
         this.robot = RobotHardware.getInstance();
-
-        this.motor = hardwareMap.get(DcMotorEx.class, "mE");
-        this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        this.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        //this.motor.setDirection(DcMotor.Direction.REVERSE);
-
-        if(DEBUG)
-        {
-            this.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        }
 
         this.gamepad = gamepad;
         this.cGamepad = new BetterGamepad(gamepad);
     }
 
-    public Elevator(HardwareMap hardwareMap)
+    public Elevator()
     {
         this.robot = RobotHardware.getInstance();
-
-        this.motor = hardwareMap.get(DcMotorEx.class, "mE");
-        this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        this.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //this.motor.setDirection(DcMotor.Direction.REVERSE);
-
-        if(DEBUG)
-        {
-            this.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        }
     }
 
     @Override
@@ -72,24 +50,24 @@ public class Elevator extends BetterSubsystem {
             {
                 target = currentTarget;
 
-                motor.setTargetPosition(inchesToEncoderTicks(target));
-                motor.setPower(power);
-                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.elevatorMotor.setTargetPosition(inchesToEncoderTicks(target));
+                robot.elevatorMotor.setPower(power);
+                robot.elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else
             {
-                motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 if(gamepad.left_stick_y != 0 && !gamepad.left_stick_button)
                 {
-                    motor.setPower(Range.clip(-gamepad.left_stick_y, -maxPower, maxPower));
+                    robot.elevatorMotor.setPower(Range.clip(-gamepad.left_stick_y, -maxPower, maxPower));
                 }
                 else if(gamepad.left_stick_y != 0 && gamepad.left_stick_button)
                 {
-                    motor.setPower(Range.clip(-gamepad.left_stick_y, -maxPower/2, maxPower/2));
+                    robot.elevatorMotor.setPower(Range.clip(-gamepad.left_stick_y, -maxPower/2, maxPower/2));
                 }
                 else
                 {
-                    motor.setPower(0);
+                    robot.elevatorMotor.setPower(0);
                 }
             }
         }
@@ -97,9 +75,9 @@ public class Elevator extends BetterSubsystem {
         {
             target = currentTarget;
 
-            motor.setTargetPosition(inchesToEncoderTicks(target));
-            motor.setPower(power);
-            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.elevatorMotor.setTargetPosition(inchesToEncoderTicks(target));
+            robot.elevatorMotor.setPower(power);
+            robot.elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 

@@ -13,14 +13,14 @@ public class Drivetrain extends BetterSubsystem {
 
     private BetterGamepad _cGamepad1, _cGamepad2;
 
-    RobotHardware _robot;
+    private final RobotHardware robot;
 
     double frontLeftPower = 0, backLeftPower = 0, frontRightPower = 0, backRightPower = 0;
 
     //Constructor
-    public Drivetrain(RobotHardware robot, Gamepad gamepad1, Gamepad gamepad2, boolean redAlliance)
+    public Drivetrain(Gamepad gamepad1, Gamepad gamepad2, boolean redAlliance)
     {
-        this._robot = robot;
+        this.robot = RobotHardware.getInstance();
 
         // gamepad helper to see if pressed button once
         this._cGamepad1 = new BetterGamepad(gamepad1);
@@ -33,7 +33,7 @@ public class Drivetrain extends BetterSubsystem {
 
     @Override
     public void periodic() {
-        double heading = _robot.getAngle();
+        double heading = robot.getAngle();
 
         double y = -_cGamepad1.left_stick_y; // Remember, Y stick value is reversed
         double x = _cGamepad1.left_stick_x;
@@ -69,10 +69,10 @@ public class Drivetrain extends BetterSubsystem {
 
     @Override
     public void write() {
-        _robot.dtFrontLeftMotor.setPower(frontLeftPower);
-        _robot.dtBackLeftMotor.setPower(backLeftPower);
-        _robot.dtFrontLeftMotor.setPower(frontRightPower);
-        _robot.dtFrontRightMotor.setPower(backRightPower);
+        robot.dtFrontLeftMotor.setPower(frontLeftPower);
+        robot.dtBackLeftMotor.setPower(backLeftPower);
+        robot.dtFrontLeftMotor.setPower(frontRightPower);
+        robot.dtFrontRightMotor.setPower(backRightPower);
     }
 
     @Override
@@ -84,11 +84,11 @@ public class Drivetrain extends BetterSubsystem {
         // check if we are blue/red alliance and set zero angle - For centric drive
         if(!redAlliance)
         {
-            _robot.setImuOffset(-(Math.PI + Math.PI/2));
+            robot.setImuOffset(-(Math.PI + Math.PI/2));
         }
         else if(redAlliance)
         {
-            _robot.setImuOffset(Math.PI + Math.PI/2);
+            robot.setImuOffset(Math.PI + Math.PI/2);
         }
     }
 
