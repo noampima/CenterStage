@@ -1,19 +1,14 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.commands.ClawCommand;
-import org.firstinspires.ftc.teamcode.commands.ElevatorCommand;
 import org.firstinspires.ftc.teamcode.util.values.ClawSide;
-import org.firstinspires.ftc.teamcode.util.values.Globals;
 import org.firstinspires.ftc.teamcode.util.wrappers.BetterSubsystem;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,9 +17,12 @@ public class Claw extends BetterSubsystem
 {
     public static boolean auto = true;
     public static double delay = 135;
+    public static double laserDelay = 1000;
     private boolean useSensor; // Use this variable to specify whether to use the right sensor
 
     private final RobotHardware robot;
+
+    Timing.Timer timer;
 
     public enum ClawState
     {
@@ -33,26 +31,36 @@ public class Claw extends BetterSubsystem
         OPEN
     }
 
-    public ClawState leftClaw = ClawState.CLOSED;
-    public ClawState rightClaw = ClawState.CLOSED;
+    public ClawState leftClaw = ClawState.OPEN;
+    public ClawState rightClaw = ClawState.OPEN;
 
-    public static double openLeft = 0.1, closeLeft = 0;
-    public static double openRight = 0.1, closeRight = 0;
+    public static double openLeft = 0.0, closeLeft = 0.1;
+    public static double openRight = 0.0, closeRight = 0.1;
 
     public Claw()
     {
+        //timer = new Timing.Timer((long)laserDelay);
         this.robot = RobotHardware.getInstance();
-
         updateState(ClawState.OPEN, ClawSide.BOTH);
+       // if(state == ClawState.OPEN)
+        {
+           // timer.start();
+        }
     }
 
     @Override
     public void periodic() {
-        if(auto)
+
+        if(rightClaw == Claw.ClawState.OPEN )
         {
             checkAndClose(robot.breambeamRight, ClawSide.RIGHT);
+        }
+
+        if(leftClaw == Claw.ClawState.OPEN )
+        {
             checkAndClose(robot.breambeamLeft, ClawSide.LEFT);
         }
+
     }
 
     @Override
@@ -86,23 +94,14 @@ public class Claw extends BetterSubsystem
                 position = getClawStatePosition(state, ClawSide.LEFT);
                 robot.clawLeftServo.setPosition(position);
                 this.leftClaw = state;
+
                 position = getClawStatePosition(state, ClawSide.RIGHT);
                 robot.clawRightServo.setPosition(position);
                 this.rightClaw = state;
                 break;
         }
-    }
 
-    public void openClaw()
-    {
-        robot.clawLeftServo.setPosition(openLeft);
-        robot.clawRightServo.setPosition(openRight);
-    }
 
-    public void closeClaw()
-    {
-        robot.clawLeftServo.setPosition(closeLeft);
-        robot.clawRightServo.setPosition(closeRight);
     }
 
     private double getClawStatePosition(ClawState state, ClawSide side)
@@ -132,20 +131,48 @@ public class Claw extends BetterSubsystem
         }
     }
 
-    void checkAndClose(DigitalChannel sensor, ClawSide side)
+    public void checkAndClose(DigitalChannel sensor, ClawSide side)
     {
-        if(sensor.getState() && useSensor)
+
+       // if(sensor.getState() && useSensor)
+        if(sensor.getState())
         {
             new SequentialCommandGroup(
                     new WaitCommand((long)delay),
                     new ClawCommand(this, Claw.ClawState.OPEN, side)).schedule();
         }
-        else if(useSensor)
+       // else if(useSensor)
+       else
         {
             new SequentialCommandGroup(
                     new WaitCommand((long) delay),
                     new ClawCommand(this, Claw.ClawState.CLOSED, side)).schedule();
         }
+
+
+    }
+
+    public void checkAndOpen(DigitalChannel sensor, ClawSide side)
+    {
+
+        // if(sensor.getState() && useSensor)
+        if(!sensor.getState())
+        {
+            new SequentialCommandGroup(
+                    new WaitCommand((long)delay),
+                    new ClawCommand(this, Claw.ClawState.OPEN, side),
+                    new WaitCommand((long)delay * 2)).schedule();
+        }
+        // else if(useSensor)
+        else
+        {
+            new SequentialCommandGroup(
+                    new WaitCommand((long) delay),
+                    new ClawCommand(this, Claw.ClawState.CLOSED, side)).schedule();
+        }
+
+
+
     }
 
     public boolean isUseSensor() {

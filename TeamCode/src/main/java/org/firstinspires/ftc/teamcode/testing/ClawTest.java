@@ -49,18 +49,15 @@ public class ClawTest extends CommandOpMode {
 
         gamepadEx.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(new SequentialCommandGroup(
-                        new SensorCommand(claw, false),
-                        new ClawCommand(claw, Claw.ClawState.CLOSED, ClawSide.BOTH),
-                        new WaitCommand((long)delayTillSensor),
-                        new SensorCommand(claw, true)
+                        new ClawCommand(claw, Claw.ClawState.CLOSED, ClawSide.BOTH)
+                       // new WaitCommand((long)delayTillSensor)
                 ));
 
         gamepadEx.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new SequentialCommandGroup(
                         new SensorCommand(claw, false),
-                        new ClawCommand(claw, Claw.ClawState.OPEN, ClawSide.BOTH),
-                        new WaitCommand((long)delayTillSensor),
-                        new SensorCommand(claw, true)
+                        new ClawCommand(claw, Claw.ClawState.OPEN, ClawSide.BOTH)
+                        //new WaitCommand((long)delayTillSensor)
                 ));
     }
 
