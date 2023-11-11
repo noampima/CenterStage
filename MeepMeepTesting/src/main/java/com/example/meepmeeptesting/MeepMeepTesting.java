@@ -9,28 +9,18 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 public class MeepMeepTesting {
 
     public static double WAIT_TIME = .75;
-<<<<<<< Updated upstream
-    public static void setAnimation(MeepMeep meepMeep, RoadRunnerBotEntity redLeftBot)
-    {
-=======
 
 
     public static void setAnimation(MeepMeep meepMeep, RoadRunnerBotEntity redLeftBot, RoadRunnerBotEntity redBlyatBot ) {
 
->>>>>>> Stashed changes
+
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
                 .addEntity(redLeftBot)
-<<<<<<< Updated upstream
               //  .addEntity(redRightBot)
-=======
-
                 .addEntity(redBlyatBot)
-
               //  .addEntity(redRightBot)
-
->>>>>>> Stashed changes
                 .start();
     }
 
@@ -153,10 +143,9 @@ public class MeepMeepTesting {
         /*
         RoadRunnerBotEntity rightRedBot = redRightTraj(new DefaultBotBuilder(meepMeep));
 
-<<<<<<< Updated upstream
+
         setAnimation(meepMeep, leftRedBot);
-=======
-<<<<<<< HEAD
+
 
 
          */
@@ -164,6 +153,6 @@ public class MeepMeepTesting {
 
         setAnimation(meepMeep, redBlyatBot , leftRedBot);//rightRedBot, leftRedBot);
 
->>>>>>> Stashed changes
+
     }
 }
