@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.trclib;
+package org.firstinspires.ftc.teamcode.testing.trclib;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IrSeekerSensor;

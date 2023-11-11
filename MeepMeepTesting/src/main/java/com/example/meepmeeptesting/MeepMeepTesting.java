@@ -10,13 +10,13 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 public class MeepMeepTesting {
 
     public static double WAIT_TIME = .75;
-    public static void setAnimation(MeepMeep meepMeep, RoadRunnerBotEntity redLeftBot,  RoadRunnerBotEntity redRightBot)
+    public static void setAnimation(MeepMeep meepMeep, RoadRunnerBotEntity redLeftBot)
     {
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
                 .addEntity(redLeftBot)
-                .addEntity(redRightBot)
+              //  .addEntity(redRightBot)
                 .start();
     }
 
@@ -54,9 +54,8 @@ public class MeepMeepTesting {
     }
     public static RoadRunnerBotEntity redLeftTraj(DefaultBotBuilder myBot)
     {
-        Pose2d placePixelPose = new Pose2d(50, -13, Math.toRadians(-30));
-        Pose2d stageDoorPose = new Pose2d(0, -12, Math.toRadians(0));
-        Pose2d stageDoorPose1 = new Pose2d(-18, -10, Math.toRadians(0));
+        Pose2d placePixelPose = new Pose2d(45, -33, Math.toRadians(0));
+        Pose2d stageDoorPose = new Pose2d(30, -21.5, Math.toRadians(0));
         Vector2d stageDoorVector = new Vector2d(0, -12);
 
         Pose2d middleIntakePixelVector = new Pose2d(-45, -25);
@@ -71,7 +70,17 @@ public class MeepMeepTesting {
                                 //Going for backdrop
                                 .strafeLeft(8)
                                 .splineToConstantHeading(stageDoorVector, Math.toRadians(0))
-                                .splineToSplineHeading(placePixelPose, Math.toRadians(0))
+                                .splineToLinearHeading(placePixelPose, Math.toRadians(0))
+
+                                //Going for intake
+                                .waitSeconds(WAIT_TIME)
+                                .lineToSplineHeading(stageDoorPose)
+                                .splineToConstantHeading(intakePixelVector, Math.toRadians(180))
+
+                                //Going for backdrop
+                                .waitSeconds(WAIT_TIME)
+                                .splineToConstantHeading(stageDoorVector, Math.toRadians(0))
+                                .splineToLinearHeading(placePixelPose, Math.toRadians(0))
 
                                 //Going for intake
                                 .waitSeconds(WAIT_TIME)
@@ -86,23 +95,13 @@ public class MeepMeepTesting {
                                 //Going for intake
                                 .waitSeconds(WAIT_TIME)
                                 .lineToSplineHeading(stageDoorPose)
-                                .splineToConstantHeading(intakePixelVector, Math.toRadians(180))
-
-                                //Going for backdrop
-                                .waitSeconds(WAIT_TIME)
-                                .splineToConstantHeading(stageDoorVector, Math.toRadians(0))
-                                .splineToSplineHeading(placePixelPose, Math.toRadians(0))
-
-                                //Going for intake
-                                .waitSeconds(WAIT_TIME)
-                                .lineToSplineHeading(stageDoorPose1)
                                 //.splineToConstantHeading(intakePixelVector, Math.toRadians(180))
                                 .splineToSplineHeading(middleIntakePixelVector, Math.toRadians(180))
 
                                 //Going for backdrop + park
                                 .waitSeconds(WAIT_TIME)
                                 //  .splineToConstantHeading(stageDoorVector, Math.toRadians(0))
-                                .splineToLinearHeading(stageDoorPose1, Math.toRadians(0))
+                                .splineToLinearHeading(stageDoorPose, Math.toRadians(0))
                                 .splineToSplineHeading(placePixelPose, Math.toRadians(0))
 
                                 .build()
@@ -116,6 +115,6 @@ public class MeepMeepTesting {
         RoadRunnerBotEntity leftRedBot = redLeftTraj(new DefaultBotBuilder(meepMeep));
         RoadRunnerBotEntity rightRedBot = redRightTraj(new DefaultBotBuilder(meepMeep));
 
-        setAnimation(meepMeep, rightRedBot, leftRedBot);
+        setAnimation(meepMeep, leftRedBot);
     }
 }

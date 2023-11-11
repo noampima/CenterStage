@@ -1,14 +1,10 @@
-package org.firstinspires.ftc.teamcode.trclib;
+package org.firstinspires.ftc.teamcode.testing.trclib;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import TrcCommonLib.command.CmdPurePursuitDrive;
-import TrcCommonLib.command.CmdTimedDrive;
-import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcFtcLib.ftclib.FtcChoiceMenu;
-import TrcFtcLib.ftclib.FtcOpMode;
 import TrcFtcLib.ftclib.FtcValueMenu;
 
 @Autonomous(name="Auto: Menu", group="testing")
