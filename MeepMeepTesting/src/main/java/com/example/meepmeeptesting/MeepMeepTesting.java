@@ -2,7 +2,6 @@ package com.example.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.path.QuinticSpline;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
@@ -10,22 +9,37 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 public class MeepMeepTesting {
 
     public static double WAIT_TIME = .75;
+<<<<<<< Updated upstream
     public static void setAnimation(MeepMeep meepMeep, RoadRunnerBotEntity redLeftBot)
     {
+=======
+
+
+    public static void setAnimation(MeepMeep meepMeep, RoadRunnerBotEntity redLeftBot, RoadRunnerBotEntity redBlyatBot ) {
+
+>>>>>>> Stashed changes
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
                 .addEntity(redLeftBot)
+<<<<<<< Updated upstream
               //  .addEntity(redRightBot)
+=======
+
+                .addEntity(redBlyatBot)
+
+              //  .addEntity(redRightBot)
+
+>>>>>>> Stashed changes
                 .start();
     }
 
 
-    public static RoadRunnerBotEntity redRightTraj(DefaultBotBuilder myBot)
-    {
-        Pose2d placePixelPose = new Pose2d(42,-35);
+    /*
+    public static RoadRunnerBotEntity redRightTraj(DefaultBotBuilder myBot) {
+        Pose2d placePixelPose = new Pose2d(42, -35);
         //    Pose2d intakePixelPose = new Pose2d(-55,-35);
-        Pose2d intakePixelPose = new Pose2d(-34,-35);
+        Pose2d intakePixelPose = new Pose2d(-34, -35);
         Pose2d parkPose = new Pose2d(50, -55);
         return myBot.setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
@@ -52,6 +66,9 @@ public class MeepMeepTesting {
                                 .waitSeconds(WAIT_TIME)
                                 .build());
     }
+
+*/
+
     public static RoadRunnerBotEntity redLeftTraj(DefaultBotBuilder myBot)
     {
         Pose2d placePixelPose = new Pose2d(45, -33, Math.toRadians(0));
@@ -109,12 +126,44 @@ public class MeepMeepTesting {
     }
 
 
+  public static RoadRunnerBotEntity redBlyatTraj(DefaultBotBuilder myBot) {
+
+      Pose2d startPose = new Pose2d(10, -60 , Math.toRadians(90));
+      Pose2d placeFirstPixel = new Pose2d(10 , -27 , Math.toRadians(90)); // 180 for left tape , default is right which is -90 degrees , 90 degrees for middle
+      Pose2d placeSecondPixel = new Pose2d(42 , -35 , Math.toRadians(0));
+      Vector2d parkBlyat = new Vector2d(48 , -60 );
+
+
+     return myBot.setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+             .followTrajectorySequence(drive ->
+                     drive.trajectorySequenceBuilder(startPose)
+                             .lineToLinearHeading(placeFirstPixel)
+                             .splineToLinearHeading(placeSecondPixel , 0)
+                             .strafeTo(parkBlyat)
+                             .build());
+
+
+ }
+
     public static void main(String[] args)
     {
         MeepMeep meepMeep = new MeepMeep(700);
+
         RoadRunnerBotEntity leftRedBot = redLeftTraj(new DefaultBotBuilder(meepMeep));
+        /*
         RoadRunnerBotEntity rightRedBot = redRightTraj(new DefaultBotBuilder(meepMeep));
 
+<<<<<<< Updated upstream
         setAnimation(meepMeep, leftRedBot);
+=======
+<<<<<<< HEAD
+
+
+         */
+        RoadRunnerBotEntity redBlyatBot= redBlyatTraj(new DefaultBotBuilder(meepMeep));
+
+        setAnimation(meepMeep, redBlyatBot , leftRedBot);//rightRedBot, leftRedBot);
+
+>>>>>>> Stashed changes
     }
 }
